@@ -1,0 +1,23 @@
+# Core packages
+pandas
+numpy
+scikit-learn
+
+# Forecasting
+prophet
+
+# Visualization / Dashboard
+plotly
+dash
+
+# Utilities
+configparser
+python-dotenv
+
+# Logging & Testing
+pytest
+
+# Optional (for extended analysis or dev tools)
+matplotlib
+seaborn
+jupyter

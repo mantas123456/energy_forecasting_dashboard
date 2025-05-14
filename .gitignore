@@ -16,5 +16,5 @@ data/processed/
 data/raw/synthetic/*.csv
 
 # Visuals
-plots/
+
 logs/

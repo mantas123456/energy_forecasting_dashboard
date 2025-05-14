@@ -82,3 +82,12 @@ Proceed to **Phase 1**:
 
 Mantas Valantinavičius  
 [LinkedIn](https://www.linkedin.com/in/mantas-valantinavicius/) · mantas.valantinavicius@gmail.com
+## Phase 1: Synthetic Data Generation & Exploration
+
+This phase includes:
+- Hourly synthetic energy and temperature data generation (Residential, Commercial, Mixed)
+- Carbon footprint estimation
+- Visual comparison of sector behavior
+- Modular file loader for robust data access
+
+See: `notebooks/01_visualize_synthetic_data.ipynb`

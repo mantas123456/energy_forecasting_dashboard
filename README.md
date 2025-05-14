@@ -1,96 +1,113 @@
-# 🔋 Real-Time Energy Forecasting & Carbon Impact Dashboard
+# ⚡ Energy Forecasting Dashboard – Phase 1: Synthetic Data Generator
 
-This project simulates, forecasts, and visualizes building energy consumption while estimating the carbon footprint in a modular, production-ready pipeline. It’s designed for energy efficiency analytics, carbon reduction strategies, and professional data science portfolio demonstration.
-
----
-
-## ✅ Phase 1: Synthetic Data Generation & Visualization
-
-**Objective:** Simulate realistic hourly energy consumption patterns across Residential, Commercial, and Mixed sectors and visualize them alongside carbon emissions.
-
-### 📌 Deliverables
-- **Synthetic Dataset Generator**:
-  - Residential, Commercial, and Mixed-use building profiles
-  - 365-day, hourly resolution
-  - Diurnal cycles, weekly trends, temperature effects, holidays
-- **Carbon Emissions Estimation**:
-  - Based on Malta’s national emission factor: `396 gCO₂e/kWh`
-- **Modular File Loader**:
-  - Robust loading of datasets from any location within project
-- **Visualization Notebook**:
-  - Daily average plots for energy use and carbon impact
-  - 7-day rolling averages for trend clarity
+This project module generates **realistic synthetic energy consumption and carbon footprint datasets** for Residential, Commercial, and Mixed-use sectors. It supports time-varying emission factors, temperature sensitivity, holiday flags, and anomaly injection for advanced forecasting and anomaly detection use cases.
 
 ---
 
-### 📁 Key Files
+## ✅ Features
 
-| File | Description |
-|------|-------------|
-| `scripts/synthetic_data_generator.py` | Generates hourly synthetic datasets with temperature and emissions |
-| `notebooks/01_visualize_synthetic_data.ipynb` | Visualizes energy and carbon data with smoothed plots |
-| `src/utils/loader.py` | Universal file loader supporting relative paths |
-| `data/raw/synthetic/*.csv` | Generated energy and carbon data (optionally excluded from Git) |
+- 🏘️ **Residential, Commercial, and Mixed** profiles (hourly/daily/10-min)
+- 🌡️ Simulated **ambient temperature** (monthly averages + sinusoidal daily cycles)
+- 📅 **Holiday flagging** for realistic usage suppression or boosts
+- ⚠️ **Anomaly injection** (spikes, dropouts, shifts)
+- ♻️ **Time-varying emission factors** (simulate carbon grid dynamics)
+- 📁 Configurable via a YAML file
+- 🔁 CLI-compatible, reproducible, and extendable
 
 ---
 
-## 🗂 Project Structure
+## 📂 Project Structure (Phase 1)
 
 ```
 energy_forecasting_dashboard/
-├── notebooks/                   ← Visualizations and analysis
-├── scripts/                     ← Data generation scripts
-├── src/utils/                   ← Modular reusable functions (loaders, config, logging)
+│
+├── config/
+│   └── synthetic_config.yaml         # All generation parameters
+│
 ├── data/
-│   └── raw/synthetic/           ← Hourly synthetic datasets
-├── README.md                    ← Project documentation
-├── .gitignore                   ← Ignore rules for clean Git commits
-├── environment.yml              ← Conda environment specification
-├── requirements.txt             ← pip alternative (optional)
+│   └── raw/synthetic/                # Generated CSV files (residential, commercial, mixed)
+│
+├── scripts/
+│   └── synthetic_data_generator_v2.py  # Main generation script
+│
+├── notebooks/
+│   └── 01_visualize_synthetic_data_v2.ipynb  # Anomaly + trend visualizer
+│
+├── src/
+│   └── utils/loader.py               # Reusable file loader
+│
+├── plots/
+│   └── energy_by_sector.png          # Auto-exported plots (optional)
+│   └── carbon_by_sector.png
+│
+└── README.md                         # You are here
 ```
 
 ---
 
-## 🧭 Phase 2 Preview: Forecasting
+## 🔧 Configuration
 
-We will now build time-series forecasting models to predict future energy consumption and carbon output:
+All parameters are controlled through `config/synthetic_config.yaml`, including:
 
-- 📈 Prophet for trend/seasonality modeling
-- ⚡ XGBoost for feature-rich regression
-- 🔁 Linear Regression baseline
-- 📊 Evaluation (RMSE, MAE, MAPE)
-- 🌱 Carbon estimation from forecasts
+- ✅ Simulation length (`start_date`, `days`, `frequency`)
+- ✅ Sector-specific demand profiles (hourly, normalized)
+- ✅ Temperature profile, comfort deviation slope
+- ✅ Carbon emissions (static or hourly dynamic)
+- ✅ Anomaly injection settings
+
+```yaml
+generate:
+  residential: true
+  commercial: true
+  mixed: true
+
+frequency: "1h"
+emissions:
+  mode: "dynamic"
+  dynamic_by_hour:
+    night: 450
+    midday: 300
+    default: 396
+anomalies:
+  enabled: true
+  types: ["spike", "dropout", "shift"]
+  count: 15
+```
 
 ---
 
-## 🚀 Getting Started
+## 🚀 How to Run
 
-To generate synthetic data:
+### ▶️ Generate Data
 
 ```bash
-python scripts/synthetic_data_generator.py
+python scripts/synthetic_data_generator_v2.py --config config/synthetic_config.yaml
 ```
 
-To visualize it:
+### 📊 Visualize Data
+
+Open in Jupyter or VS Code:
 
 ```bash
-Open notebooks/01_visualize_synthetic_data.ipynb in Jupyter or VS Code
+notebooks/01_visualize_synthetic_data_v2.ipynb
 ```
+
+- Plots daily average consumption per sector
+- Highlights injected anomalies with markers
 
 ---
 
-## 🏷️ Version
+## 🧠 Next Phase
 
-Current milestone: **v0.1.0 – Phase 1 complete**
+**Phase 2** will use this data for:
 
-- Synthetic generator  
-- Carbon integration  
-- Smoothed visualization  
-- Modular project structure
-## 📊 Sample Visualizations
+- Time series forecasting (Prophet, XGBoost)
+- Anomaly detection (unsupervised & supervised)
+- KPI dashboards and auto-generated reports
 
-### 🔌 Daily Energy Consumption 
-![Energy Consumption](plots/energy_by_sector.png)
+---
 
-### 🌍 Daily Carbon Footprint 
-![Carbon Footprint](plots/carbon_by_sector.png)
+## 👤 Author
+
+**Mantas Valantinavičius**  
+Phase 1 complete ✅ | Energy & Data Science | Malta 🇲🇹

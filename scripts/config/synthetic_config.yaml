@@ -1,0 +1,102 @@
+# === SIMULATION TIME SETTINGS ===
+start_date: "2024-01-01"        # Start date of the simulation (format: YYYY-MM-DD)
+days: 365                       # Total number of days to simulate
+frequency: "1h"                 # Time resolution: options = "1d" (daily), "1h" (hourly), "10min" (every 10 minutes)
+
+# === OUTPUT SETTINGS ===
+output_dir: "data/raw/synthetic/"  # Directory where the output CSV files will be saved
+
+# === SECTOR SELECTION ===
+generate:
+  residential: true            # Generate data for the residential sector
+  commercial: true             # Generate data for the commercial sector
+  mixed: true                  # Generate data for a mixed profile (60% residential, 40% commercial)
+
+residential_weight: 0.6        # Weight used when mixing residential and commercial profiles
+
+# === EMISSIONS CONFIGURATION ===
+emissions:
+  mode: "dynamic"              # Choose emission mode: "static" or "dynamic"
+  static_value: 396            # Used if mode = static (in gCO2e per kWh)
+  dynamic_by_hour:             # Used if mode = dynamic (emission varies by hour of day)
+    default: 396               # Default value for unspecified hours
+    night: 450                 # Nighttime (0–5h): higher due to fossil fuel use
+    midday: 300                # Midday (10–16h): lower due to solar/wind generation
+
+# === TEMPERATURE SIMULATION SETTINGS ===
+temperature:
+  profile: "sinusoidal"        # Options: "sinusoidal" (adds daily fluctuation), "flat" (no intra-day variation)
+  std: 1.5                     # Standard deviation of temperature noise (°C)
+
+# === TEMPERATURE–ENERGY IMPACT MODEL ===
+temperature_impact:
+  comfort_temp: 20             # Reference comfort temperature (°C)
+  slope_residential: 0.01      # Energy sensitivity per °C deviation (residential)
+  slope_commercial: 0.015      # Energy sensitivity per °C deviation (commercial)
+
+# === BEHAVIORAL NOISE ===
+noise:
+  behavior_std: 0.05           # Standard deviation of random behavioral variation on energy demand
+
+# === ANOMALY INJECTION SETTINGS ===
+anomalies:
+  enabled: true                # Enable or disable anomaly injection
+  count: 15                    # Total number of anomalies to inject per dataset
+  types: ["spike", "dropout", "shift"]  # Types of anomalies: spike = sudden increase, dropout = zero usage, shift = usage offset
+  spike_multiplier: 5.0        # Multiplier used to simulate a spike
+  dropout_value: 0.0           # Value used to simulate a dropout (e.g., 0 = complete blackout)
+  shift_percent_range: [-0.2, 0.2]  # Range (min, max) of % change for shift anomalies
+  random_seed: 999              # Seed for reproducibility of random anomaly selection
+# === sector profiles ===
+sector_profiles:
+  Residential:
+    - 0.6  # 00:00 – early evening use
+    - 0.5  # 01:00
+    - 0.4  # 02:00
+    - 0.3  # 03:00 – lowest point (night)
+    - 0.3  # 04:00
+    - 0.4  # 05:00 – pre-morning ramp-up
+    - 0.6  # 06:00
+    - 0.9  # 07:00 – morning peak
+    - 1.0  # 08:00
+    - 0.8  # 09:00
+    - 0.6  # 10:00 – declining
+    - 0.5  # 11:00
+    - 0.5  # 12:00 – midday low
+    - 0.5  # 13:00
+    - 0.5  # 14:00
+    - 0.6  # 15:00 – ramp-up
+    - 0.7  # 16:00
+    - 0.9  # 17:00 – evening start
+    - 1.0  # 18:00 – evening peak
+    - 0.9  # 19:00
+    - 0.7  # 20:00
+    - 0.6  # 21:00
+    - 0.6  # 22:00
+    - 0.5  # 23:00
+
+  Commercial:
+    - 0.2  # 00:00 – nearly zero activity
+    - 0.1  # 01:00
+    - 0.1  # 02:00
+    - 0.1  # 03:00
+    - 0.2  # 04:00
+    - 0.4  # 05:00
+    - 0.8  # 06:00 – business start
+    - 1.0  # 07:00
+    - 1.0  # 08:00 – full operation
+    - 1.0  # 09:00
+    - 1.0  # 10:00
+    - 1.0  # 11:00
+    - 1.0  # 12:00 – sustained load
+    - 1.0  # 13:00
+    - 1.0  # 14:00
+    - 1.0  # 15:00
+    - 1.0  # 16:00
+    - 0.8  # 17:00 – tapering
+    - 0.4  # 18:00
+    - 0.2  # 19:00
+    - 0.1  # 20:00 – post-hours
+    - 0.1  # 21:00
+    - 0.1  # 22:00
+    - 0.1  # 23:00

@@ -87,3 +87,10 @@ Current milestone: **v0.1.0 – Phase 1 complete**
 - Carbon integration  
 - Smoothed visualization  
 - Modular project structure
+## 📊 Sample Visualizations
+
+### 🔌 Daily Energy Consumption (with smoothing)
+![Energy Consumption](plots/energy_by_sector.png)
+
+### 🌍 Daily Carbon Footprint (with smoothing)
+![Carbon Footprint](plots/carbon_by_sector.png)

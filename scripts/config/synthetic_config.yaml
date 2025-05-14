@@ -36,14 +36,14 @@ temperature_impact:
 
 # === BEHAVIORAL NOISE ===
 noise:
-  behavior_std: 0.05           # Standard deviation of random behavioral variation on energy demand
+  behavior_std: 0.1           # Standard deviation of random behavioral variation on energy demand
 
 # === ANOMALY INJECTION SETTINGS ===
 anomalies:
   enabled: true                # Enable or disable anomaly injection
   count: 15                    # Total number of anomalies to inject per dataset
   types: ["spike", "dropout", "shift"]  # Types of anomalies: spike = sudden increase, dropout = zero usage, shift = usage offset
-  spike_multiplier: 5.0        # Multiplier used to simulate a spike
+  spike_multiplier: 2.0        # Multiplier used to simulate a spike
   dropout_value: 0.0           # Value used to simulate a dropout (e.g., 0 = complete blackout)
   shift_percent_range: [-0.2, 0.2]  # Range (min, max) of % change for shift anomalies
   random_seed: 999              # Seed for reproducibility of random anomaly selection

@@ -89,8 +89,8 @@ Current milestone: **v0.1.0 – Phase 1 complete**
 - Modular project structure
 ## 📊 Sample Visualizations
 
-### 🔌 Daily Energy Consumption (Smoothed)
+### 🔌 Daily Energy Consumption 
 ![Energy Consumption](plots/energy_by_sector.png)
 
-### 🌍 Daily Carbon Footprint (Smoothed)
+### 🌍 Daily Carbon Footprint 
 ![Carbon Footprint](plots/carbon_by_sector.png)

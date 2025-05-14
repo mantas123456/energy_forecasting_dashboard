@@ -1,6 +1,13 @@
+# Python
 __pycache__/
-*.pyc
-.ipynb_checkpoints/
+*.py[cod]
+*.ipynb_checkpoints/
 .env
-data/processed/
-data/raw/synthetic/*.csv
+.envrc
+
+# Data files
+/data/processed/*
+/data/raw/synthetic/*.csv
+
+# Plots
+/plots/*.png

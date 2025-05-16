@@ -3,7 +3,8 @@
 """
 09_generate_phase2_report.py
 -----------------------------
-Generates a metric-system-compliant .docx report for Phase 2 evaluation.
+Generates a metric-system-compliant .docx report for Phase 2 evaluation,
+now including feature descriptions.
 
 Author: Mantas Valantinavicius
 """
@@ -19,6 +20,21 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(
 RESULTS_DIR = Path("phase_2_modeling_pipeline/results")
 PLOTS_DIR = RESULTS_DIR / "plots"
 REPORT_PATH = RESULTS_DIR / "Phase2_Model_Evaluation_Report.docx"
+
+FEATURES = [
+    ("hour", "Hour of the day (0–23)", "Integer", "Captures daily consumption patterns"),
+    ("day_of_week", "Day of week (0 = Monday, 6 = Sunday)", "Integer", "Captures weekly usage trends"),
+    ("month", "Month of year (1–12)", "Integer", "Captures seasonal effects"),
+    ("is_weekend", "1 = weekend, 0 = weekday", "Binary", "Distinguishes weekend usage behavior"),
+    ("hour_sin", "Sine transformation of hour", "Float", "Captures cyclical daily pattern"),
+    ("hour_cos", "Cosine transformation of hour", "Float", "Complements `hour_sin` for full cycle encoding"),
+    ("dow_sin", "Sine transformation of day_of_week", "Float", "Captures weekly pattern phase"),
+    ("dow_cos", "Cosine transformation of day_of_week", "Float", "Complements `dow_sin`"),
+    ("temperature_C", "Ambient temperature", "Degrees Celsius (°C)", "Relates to heating/cooling needs"),
+    ("lag_1h", "Energy use 1 hour ago", "kWh", "Captures short-term trend"),
+    ("lag_24h", "Energy use same hour previous day", "kWh", "Captures daily recurrence"),
+    ("roll_mean_24h", "Rolling 24h mean energy use", "kWh", "Smooths noise and shows recent trends"),
+]
 
 def add_heading(doc, text, level=1):
     doc.add_heading(text, level=level)
@@ -55,6 +71,25 @@ def add_evaluation_table(doc, csv_path):
 
     doc.add_paragraph("Note: All error metrics (RMSE, MAE, MAPE) are reported in kilowatt-hours (kWh).")
 
+def add_feature_description_table(doc):
+    add_heading(doc, "2.1 Feature Descriptions", level=2)
+    add_paragraph(doc, "The following table summarizes all engineered input features used in model training:")
+
+    table = doc.add_table(rows=1, cols=4)
+    table.style = "Light Grid"
+    hdr_cells = table.rows[0].cells
+    hdr_cells[0].text = "Feature Name"
+    hdr_cells[1].text = "Description"
+    hdr_cells[2].text = "Unit / Type"
+    hdr_cells[3].text = "Purpose in Model"
+
+    for feature, desc, unit, purpose in FEATURES:
+        row = table.add_row().cells
+        row[0].text = feature
+        row[1].text = desc
+        row[2].text = unit
+        row[3].text = purpose
+
 def generate_report():
     doc = Document()
 
@@ -80,6 +115,9 @@ def generate_report():
         "XGBoost was configured with 100 estimators and a maximum depth of 5. Prophet included daily and weekly seasonality. "
         "Linear Regression was used as a baseline model for comparison."
     ))
+
+    # NEW SECTION: Feature Descriptions
+    add_feature_description_table(doc)
 
     # Evaluation Table
     add_heading(doc, "3. Model Performance Summary")
@@ -119,7 +157,7 @@ def generate_report():
 
     # Save
     doc.save(REPORT_PATH)
-    logging.info(f"📄 Metric system report generated: {REPORT_PATH.resolve()}")
+    logging.info(f"📄 Metric system report with feature descriptions saved: {REPORT_PATH.resolve()}")
 
 
 if __name__ == "__main__":

@@ -97,17 +97,146 @@ notebooks/01_visualize_synthetic_data_v2.ipynb
 
 ---
 
-## 🧠 Next Phase
+## 📈 Phase 2 – Modeling, Evaluation & Deployment (Energy Forecasting Dashboard)
 
-**Phase 2** will use this data for:
-
-- Time series forecasting (Prophet, XGBoost)
-- Anomaly detection (unsupervised & supervised)
-- KPI dashboards and auto-generated reports
+This phase focuses on training, evaluating, and packaging forecasting models to predict hourly building energy consumption using synthetic data. The goal is to identify the most accurate model and prepare it for deployment or dashboard integration.
 
 ---
 
-## 👤 Author
+## ✅ Objectives
 
-**Mantas Valantinavičius**  
-Phase 1 complete ✅ | Energy & Data Science | Malta 🇲🇹
+- Train multiple forecasting models on engineered features
+- Evaluate models using RMSE, MAE, and MAPE
+- Visualize prediction accuracy and model internals
+- Generate a professional `.docx` report
+- Package production-ready model artifacts
+
+---
+
+## 🧠 Models Used
+
+| Model            | Description                              |
+|------------------|------------------------------------------|
+| XGBoost          | Gradient boosting model (best performer) |
+| Prophet          | Trend & seasonality decomposition         |
+| Linear Regression| Baseline statistical model               |
+
+---
+
+## 📁 Directory Structure
+
+```
+phase_2_modeling_pipeline/
+├── models/                   # Trained model files (.json, .pkl)
+├── results/
+│   ├── predictions/          # Output CSVs from each model
+│   ├── plots/                # All evaluation & diagnostic visuals
+│   ├── model_evaluation_summary.csv
+│   └── Phase2_Model_Evaluation_Report.docx
+├── deployment_ready/
+│   ├── xgboost_model_mixed.json
+│   ├── xgboost_predictions_mixed.csv
+│   ├── feature_columns.json
+│   ├── requirements.txt
+│   └── predict_from_input.py
+└── scripts/
+    └── (01–10)_*.py         # Training, evaluation, visualization, export
+```
+
+---
+
+## 📊 Model Evaluation Summary
+
+| Model            | RMSE     | MAE      | MAPE (%) |
+|------------------|----------|----------|-----------|
+| **XGBoost**       | *0.0787* | *0.0595* | *12.31*    |
+| Prophet          | 0.1036   | 0.0814   | 17.04     |
+| Linear Regression| 0.1125   | 0.0866   | 17.81     |
+
+✅ **XGBoost** outperforms all models and is packaged for deployment.
+
+---
+
+## 🛠 How to Run Prediction
+
+```bash
+cd phase_2_modeling_pipeline/deployment_ready
+
+# Predict from a CSV file with all features
+python predict_from_input.py
+
+# OR use the function directly in Python:
+from predict_from_input import predict_from_dict_list
+
+sample = [{
+  "hour": 14,
+  "day_of_week": 2,
+  "month": 5,
+  "is_weekend": 0,
+  "hour_sin": 0.99,
+  "hour_cos": -0.12,
+  "dow_sin": 0.78,
+  "dow_cos": 0.62,
+  "temperature_C": 23.5,
+  "lag_1h": 0.8,
+  "lag_24h": 0.75,
+  "roll_mean_24h": 0.72
+}]
+
+predict_from_dict_list(sample)
+```
+
+---
+
+## 📦 Deployment Bundle Includes
+
+- ✅ `xgboost_model_mixed.json`
+- ✅ `feature_columns.json`
+- ✅ `xgboost_predictions_mixed.csv`
+- ✅ `requirements.txt`
+- ✅ `predict_from_input.py`
+
+---
+
+## 📄 Report
+
+📄 `Phase2_Model_Evaluation_Report.docx`  
+Located in `/results/Phase2_Model_Evaluation_Report.docx`
+
+Includes methodology, model performance, plots, and final recommendations.
+
+---
+
+## 🧪 Requirements
+
+```
+xgboost
+pandas
+numpy
+scikit-learn
+```
+
+Install with:
+
+```bash
+pip install -r deployment_ready/requirements.txt
+```
+
+---
+
+## 📍 Git Tag
+
+This phase is archived and reproducible under Git tag: `v2.0`
+
+---
+
+## 🚀 Next Steps (Phase 3)
+
+- Real-time dashboard integration
+- Anomaly detection
+- Deployment via API or stream
+
+---
+
+**Author:** Mantas Valantinavicius  
+**Status:** ✅ Phase 2 complete  

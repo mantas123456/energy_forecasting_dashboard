@@ -1,0 +1,7 @@
+data_source:
+  type: csv
+  path: data/raw/synthetic/synthetic_energy_mixed_365d.csv
+  table: dummy  # Only used for SQLite
+
+data_output:
+  cleaned_path: phase_2_modeling_pipeline/data/processed/cleaned_energy_data.csv

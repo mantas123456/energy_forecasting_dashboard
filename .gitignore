@@ -18,3 +18,4 @@ data/raw/synthetic/*.csv
 # Visuals
 
 logs/
+"phase_1_synthetic_data/" 

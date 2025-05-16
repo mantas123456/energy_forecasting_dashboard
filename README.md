@@ -97,7 +97,7 @@ notebooks/01_visualize_synthetic_data_v2.ipynb
 
 ---
 
-## 📈 Phase 2 – Modeling, Evaluation & Deployment (Energy Forecasting Dashboard)
+# 📈 Phase 2 – Modeling, Evaluation & Deployment (Energy Forecasting Dashboard)
 
 This phase focuses on training, evaluating, and packaging forecasting models to predict hourly building energy consumption using synthetic data. The goal is to identify the most accurate model and prepare it for deployment or dashboard integration.
 
@@ -120,6 +120,25 @@ This phase focuses on training, evaluating, and packaging forecasting models to 
 | XGBoost          | Gradient boosting model (best performer) |
 | Prophet          | Trend & seasonality decomposition         |
 | Linear Regression| Baseline statistical model               |
+
+---
+
+## 📊 Feature Descriptions
+
+| Feature Name       | Description                                                                 | Unit / Type         | Purpose in Model                       |
+|--------------------|-----------------------------------------------------------------------------|---------------------|----------------------------------------|
+| `hour`             | Hour of the day (0–23)                                                      | Integer             | Captures daily consumption patterns    |
+| `day_of_week`      | Day of the week (0 = Monday, 6 = Sunday)                                    | Integer             | Captures weekly usage trends           |
+| `month`            | Month of the year (1–12)                                                    | Integer             | Captures seasonal effects              |
+| `is_weekend`       | 1 if the day is Saturday or Sunday, 0 otherwise                             | Binary (0 or 1)     | Distinguishes weekend usage behavior   |
+| `hour_sin`         | Sine transformation of the hour (cyclical encoding)                         | Float               | Helps model smooth hourly cycles       |
+| `hour_cos`         | Cosine transformation of the hour                                           | Float               | Complementary to `hour_sin`            |
+| `dow_sin`          | Sine transformation of day of week                                          | Float               | Captures weekly cycle phase            |
+| `dow_cos`          | Cosine transformation of day of week                                        | Float               | Captures weekly cycle strength         |
+| `temperature_C`    | Ambient temperature at that hour                                            | Degrees Celsius (°C)| Models energy variation due to heating/cooling |
+| `lag_1h`           | Energy usage 1 hour before current timestamp                                | kilowatt-hours (kWh)| Captures short-term autocorrelation    |
+| `lag_24h`          | Energy usage at the same hour 1 day before                                  | kilowatt-hours (kWh)| Captures daily recurring behavior      |
+| `roll_mean_24h`    | Rolling average of the last 24 hours of energy usage                        | kilowatt-hours (kWh)| Smooths out short-term fluctuations    |
 
 ---
 
@@ -201,8 +220,7 @@ predict_from_dict_list(sample)
 ## 📄 Report
 
 📄 `Phase2_Model_Evaluation_Report.docx`  
-Located in `/results/Phase2_Model_Evaluation_Report.docx`
-
+Located in `/results/Phase2_Model_Evaluation_Report.docx`  
 Includes methodology, model performance, plots, and final recommendations.
 
 ---
